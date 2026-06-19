@@ -1,9 +1,120 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SyncraRPC.MainWindow"
-        Title="SyncraRPC">
-    Welcome to SyncraRPC!
+        x:CompileBindings="False"
+        Title="Syncra RPC Hub"
+        Width="1000" Height="700"
+        WindowStartupLocation="CenterScreen"
+        Background="#1e1e1e"
+        Foreground="White"
+        SystemDecorations="None"
+        CornerRadius="8">
+
+    <Grid ColumnDefinitions="250, *">
+        <Border Grid.Column="0" Background="#161616" BorderBrush="#2d2d2d" BorderThickness="0,0,1,0">
+            <Grid RowDefinitions="Auto, *">
+                <TextBlock Grid.Row="0" Text="Syncra RPC" FontSize="18" FontWeight="Bold" Margin="20,25,20,15" Foreground="#416188"/>
+                
+                <ListBox Grid.Row="1" Name="MenuListBox" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" SelectionChanged="OnMenuSelectionChanged">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="15,12"/>
+                            <Setter Property="Margin" Value="10,2"/>
+                            <Setter Property="CornerRadius" Value="6"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#2d2d2d"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#416188"/>
+                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBoxItem Name="MainTabItem" IsSelected="True">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Главная" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    
+                    <ListBoxItem Name="SettingsTabItem">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="Настройки" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1" RowDefinitions="Auto, *">
+            <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Height="40" Background="#1e1e1e" PointerPressed="OnTitleBarPointerPressed">
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    
+                    <Button Content="—" 
+                            Width="45" Height="40" 
+                            Background="Transparent" 
+                            BorderThickness="0"
+                            CornerRadius="0" 
+                            Foreground="#aaaaaa"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                            Click="OnMinimizeClick">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#2d2d2d"/>
+                                <Setter Property="TextBlock.Foreground" Value="White"/>
+                                <Setter Property="CornerRadius" Value="0"/>
+                            </Style>
+                        </Button.Styles>
+                    </Button>
+                    
+                    <Button Content="✕" 
+                            Width="45" Height="40" 
+                            Background="Transparent" 
+                            BorderThickness="0"
+                            CornerRadius="0" 
+                            Foreground="#aaaaaa"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                            Click="OnCloseClick">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="#e81123"/>
+                                <Setter Property="TextBlock.Foreground" Value="White"/>
+                                <Setter Property="CornerRadius" Value="0"/>
+                            </Style>
+                        </Button.Styles>
+                    </Button>
+                    
+                </StackPanel>
+            </Grid>
+
+            <Carousel Grid.Row="1" Name="ContentCarousel" Margin="30,10,30,30">
+                <StackPanel Spacing="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350">
+                    <TextBlock Text="Управление статусом Discord" FontSize="16" HorizontalAlignment="Center" Foreground="#aaaaaa"/>
+                    <Button Name="RpcActivationButton" 
+                            Content="Включить SyncraRPC"
+                            Height="45"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="15"
+                            FontWeight="SemiBold"
+                            Background="#416188"
+                            Foreground="White"
+                            CornerRadius="6"
+                            Click="onActivateSyncraRPC" />
+                </StackPanel>
+
+                <StackPanel Spacing="15" VerticalAlignment="Top">
+                    <TextBlock Text="Настройки профиля" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                    
+                    <TextBlock Text="ID Клиента приложения (Client ID):" Foreground="#aaaaaa"/>
+                    <TextBox PlaceholderText="Введите ID из Discord Developer Portal..." Width="400" HorizontalAlignment="Left"/>
+                    
+                    <TextBlock Text="Текст статуса (State):" Foreground="#aaaaaa" Margin="0,10,0,0"/>
+                    <TextBox PlaceholderText="Например: Syncra RPC is best RPC hub" Width="400" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </Carousel>
+        </Grid>
+    </Grid>
 </Window>

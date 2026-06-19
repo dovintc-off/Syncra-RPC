@@ -19,6 +19,7 @@ public class PlatformNotSupportedException : Exception
 
 public class Princess : IDisposable 
 {
+    private Random _random = new Random();
     public string ?CientId {get; private set;}
     public NamedPipeClientStream ?_pipe {get; set;}
     public int ?_nonce {get; set;}
@@ -49,6 +50,50 @@ public class Princess : IDisposable
         Dictionary<string, object> handshake_data = new() {{"v", 1}, {"client_id", this.CientId?.ToString() ?? ""}};
         this.send(handshake_data, 0);
         this.read_pipe();
+    }
+
+    public void update(
+        string? name = null,
+        string? state = null,
+        double? start = null,
+        string? large_image = null,
+        string? large_text = null,
+        string? small_image = null,
+        string? small_text = null
+    ){
+        this._nonce = _random.Next(1, 1001);
+        
+        var activity = new Dictionary<string, object>{
+            {"name", name ?? ""},
+        };
+
+        if (state != null) activity["state"] = state;
+
+        if (start.HasValue) {
+            activity["timestamps"] = new Dictionary<string, object>{
+                {"start", (long)(start.Value * 1000)}
+            };
+        }
+
+        var assets = new Dictionary<string, object>();
+        if (!string.IsNullOrWhiteSpace(large_image)) assets["large_image"] = large_image;
+        if (!string.IsNullOrWhiteSpace(large_text)) assets["large_text"] = large_text;
+        if (!string.IsNullOrWhiteSpace(small_image)) assets["small_image"] = small_image;
+        if (!string.IsNullOrWhiteSpace(small_text)) assets["small_text"] = small_text;
+        if (assets.Count > 0) activity["assets"] = assets;
+
+        var args = new Dictionary<string, object>{
+            {"pid", Environment.ProcessId},
+            {"activity", activity}
+        };
+
+        Dictionary<string, object> data = new() {
+            {"cmd", "SET_ACTIVITY"}, 
+            {"args", args},
+            {"nonce", _nonce.ToString() ?? "2676"}
+        };
+
+        this.send(data, 1);
     }
 
     private void send(Dictionary<string, object> data, uint opcode){
