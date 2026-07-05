@@ -1,17 +1,23 @@
+// Copyright (C) 2026 Dovintc
+// This file is part of Syncra RPC
+// Licensed under AGPL-3.0 with No-Misattribution Addendum.
+// See LICENSE file for details.
+
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using System;
-
 namespace SyncraRPC;
 
 public partial class MainWindow : Window
 {
     private readonly ManagerSyncraRpc _rpcManager = new();
+    private readonly Config config;
 
     public MainWindow()
     {
         InitializeComponent();
+        config = new();
     }
 
     public void OnMenuSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -25,7 +31,7 @@ public partial class MainWindow : Window
         }
     }
 
-    public void onActivateSyncraRPC(object? sender, RoutedEventArgs e)
+    public async void onActivateSyncraRPC(object? sender, RoutedEventArgs e)
     {
         var rpcButton = this.FindControl<Button>("RpcActivationButton");
         if (rpcButton == null) return;
@@ -34,27 +40,48 @@ public partial class MainWindow : Window
         {
             _rpcManager.Start();
             rpcButton.Content = "Выключить SyncraRPC";
-            rpcButton.Background = Avalonia.Media.Brush.Parse("#d32f2f"); 
+            rpcButton.Background = Avalonia.Media.Brush.Parse("#4e5491"); 
         }
         else
         {
-            _rpcManager.Stop();
+            await _rpcManager.Stop();
             rpcButton.Content = "Включить SyncraRPC";
-            rpcButton.Background = Avalonia.Media.Brush.Parse("#416188");
+            rpcButton.Background = Avalonia.Media.Brush.Parse("#5865F2");
         }
     }
+
 
     public void OnCloseClick(object? sender, RoutedEventArgs e) => this.Close();
     
     public void OnMinimizeClick(object? sender, RoutedEventArgs e) => 
         this.WindowState = WindowState.Minimized;
-    
+
+    public void OnCloseUI(object? sender, RoutedEventArgs e)
+    {
+        if (config == null && config.GetStandardConfig("AgreedWithHideUIButton")?.GetType() != typeof(string)) {
+            System.Console.WriteLine("[Main] Config пуст или прочитан правильно пора дебажить");
+        }        
+
+        if (config.GetStandardConfig("AgreedWithHideUIButton")?.ToString()?.ToLower().Trim() == "false")
+        {
+            WarningOverlay.IsVisible = true;
+            WarningOverlay.ZIndex = 1000;
+        }
+    }
+
+    public void BtnAcceptHidingTrayOk(object? sender, RoutedEventArgs e)
+    {
+        WarningOverlay.IsVisible = false;
+        WarningOverlay.ZIndex = -1000;
+        config.SetStandardConfig(agreedWithHideUIButton: "true");
+    }
+
     public void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e) => 
         this.BeginMoveDrag(e);
         
-    protected override void OnClosed(EventArgs e)
+    protected override async void OnClosed(EventArgs e)
     {
-        _rpcManager.Stop();
+        await _rpcManager.Stop();
         base.OnClosed(e);
         Console.WriteLine("[RPC] Соединение закрыто");
     }

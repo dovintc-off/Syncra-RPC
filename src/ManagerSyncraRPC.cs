@@ -1,3 +1,8 @@
+// Copyright (C) 2026 Dovintc
+// This file is part of Syncra RPC
+// Licensed under AGPL-3.0 with No-Misattribution Addendum.
+// See LICENSE file for details.
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,18 +24,17 @@ public class ManagerSyncraRpc
         _isActive = true;
         _cts = new CancellationTokenSource();
         
-        _workerTask = Task.Run(() => BackgroundWorker(_cts.Token));
+        _workerTask = BackgroundWorker(_cts.Token);
     }
 
-    public void Stop()
+    public async Task Stop()
     {
         if (!_isActive) return;
 
         _isActive = false;
         _cts?.Cancel(); 
 
-        try { _workerTask?.Wait(500); }
-        catch (AggregateException) {}
+        if (_workerTask != null) await Task.WhenAny(_workerTask, Task.Delay(500));
         princess?.close();
 
         _cts?.Dispose();
@@ -40,7 +44,7 @@ public class ManagerSyncraRpc
         Console.WriteLine("[Поток 1] Остановка прошла успешно");
     }
 
-    private void BackgroundWorker(CancellationToken token)
+    private async Task BackgroundWorker(CancellationToken token)
     {
         Console.WriteLine("[Поток 2] Фоновый поток работает.");
 
@@ -55,12 +59,12 @@ public class ManagerSyncraRpc
                 Console.WriteLine($"[Поток 2] Обновление статуса");
 
                 princess?.update(
-                    name: "Watch on Syncra RPC",
-                    state: "Syncra RPC is best RPC hub",
+                    name: "t.me/dovintc",
+                    state: "t.me/dovintc",
                     start: start
                 );
 
-                Task.Delay(5000, token).Wait(token);
+                await Task.Delay(5000, token);
             }
         }
         catch (OperationCanceledException)
