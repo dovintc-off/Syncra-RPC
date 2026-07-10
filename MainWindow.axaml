@@ -6,6 +6,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="SyncraRPC.MainWindow"
         x:CompileBindings="False"
+        xmlns:loc="clr-namespace:SyncraRPC.LocalizationMarkupExtension"
         Title="Syncra RPC Hub"
         Width="1000" Height="700"
         WindowStartupLocation="CenterScreen"
@@ -83,13 +84,13 @@
                         </ListBox.Styles>
                         <ListBoxItem Name="MainTabItem" IsSelected="True">
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="Главная" VerticalAlignment="Center" FontSize="14"/>
+                                <TextBlock Text="{loc:Loc sidebar.main}" VerticalAlignment="Center" FontSize="14"/>
                             </StackPanel>
                         </ListBoxItem>
                         
                         <ListBoxItem Name="SettingsTabItem">
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="Настройки" VerticalAlignment="Center" FontSize="14"/>
+                                <TextBlock Text="{loc:Loc sidebar.settings}" VerticalAlignment="Center" FontSize="14"/>
                             </StackPanel>
                         </ListBoxItem>
                     </ListBox>
@@ -99,9 +100,9 @@
             <Grid Grid.Column="1" RowDefinitions="Auto, *">
                 <Carousel Grid.Row="1" Name="ContentCarousel" Margin="30,10,30,30">
                     <StackPanel Spacing="20" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350">
-                        <TextBlock Text="Управление статусом Discord" FontSize="16" HorizontalAlignment="Center" Foreground="#aaaaaa"/>
+                        <TextBlock Text="{loc:Loc main.title}" FontSize="16" HorizontalAlignment="Center" Foreground="#aaaaaa"/>
                         <Button Name="RpcActivationButton" 
-                                Content="Включить SyncraRPC"
+                                Content="{loc:Loc main.mainBtn.on}"
                                 Height="45"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Center"
@@ -116,11 +117,11 @@
 
                     <!-- настройки -->
                     <StackPanel Spacing="15" VerticalAlignment="Top">
-                        <TextBlock Text="Настройки" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{loc:Loc sidebar.settings }" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
                         <!-- 1 переключатель -->
                         <StackPanel MaxWidth="400" Spacing="2">
                             <Grid>
-                                <TextBlock Text="Чтото оно точно делает" 
+                                <TextBlock Text="{loc:Loc settings.SomeBtn.name}" 
                                         FontSize="16"
                                         Foreground="#ffffff"
                                         FontWeight="Bold"
@@ -133,7 +134,7 @@
                                         VerticalAlignment="Center"/>
                             </Grid>
 
-                            <TextBlock Text="Это просто тестовый текст не обращай внимание и все будет хорошо, а тут тест на длинну, тест прошел отлично ну все тогда"
+                            <TextBlock Text="{loc:Loc settings.SomeBtn.subtext}"
                                     Foreground="#aaaaaa"
                                     FontSize="12"
                                     TextWrapping="Wrap"/>
@@ -144,46 +145,46 @@
 
                         <StackPanel MaxWidth="400" Spacing="2" Margin="0,10,0,0">
                             <StackPanel>
-                                <TextBlock Text="Вывод Дополнительной Информации" 
+                                <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.name}" 
                                             FontSize="16"
                                             Foreground="#ffffff"
                                             FontWeight="Bold"
                                             VerticalAlignment="Center"
                                             Margin="0,0,50,0"/>
-                                <TextBlock Text="Отправляет все (или выбранные вами) сообщения о работе программы. Например: ошибки соединения, новые запущенные программы"
+                                <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.subtext }"
                                         Foreground="#aaaaaa" FontSize="12" TextWrapping="Wrap" Margin="0,3,0,0"/> 
                             </StackPanel>
 
                             <StackPanel>
-                                <RadioButton GroupName="Вывод Дополнительной Информации" IsChecked="True"  Margin="0,9,0,0">
+                                <RadioButton GroupName="OutputOfAdditionalInformation" IsChecked="True"  Margin="0,9,0,0">
                                     <StackPanel Orientation="Vertical" Spacing="2" MaxWidth="350">
-                                        <TextBlock Text="Отправлять всё" 
+                                        <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.SendAll.name}" 
                                                 FontSize="14" 
                                                 Foreground="#ffffff" 
                                                 FontWeight="SemiBold"/>
                                                 
-                                        <TextBlock Text="Отправляет всю информацию в отдельный раздел 'Консоль' найти раздел можно слева"
+                                        <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.SendAll.subtext}"
                                                 FontSize="11" Foreground="#aaaaaa" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </RadioButton>
 
-                                <RadioButton GroupName="Вывод Дополнительной Информации" Margin="0,7,0,0">
+                                <RadioButton GroupName="OutputOfAdditionalInformation" Margin="0,7,0,0">
                                     <StackPanel>
-                                        <TextBlock Text="Только Критические Ошибки"
+                                        <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.CriticalErrorsOnly.name}"
                                             FontSize="14" Foreground="#ffffff" FontWeight="SemiBold"/>
                                         
                                         <TextBlock
-                                            Text="Показывает всплывающее сообщение с описанием критической ошибкой сверху справа. При нажатии можно увидеть больше информации о ошибки"
+                                            Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.CriticalErrorsOnly.subtext}"
                                             FontSize="11" Foreground="#aaaaaa" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </RadioButton>
 
-                                <RadioButton GroupName="Вывод Дополнительной Информации" IsEnabled="False" Margin="0,7,0,0">
+                                <RadioButton GroupName="OutputOfAdditionalInformation" IsEnabled="False" Margin="0,7,0,0">
                                     <StackPanel >
-                                        <TextBlock Text="Кастомная настройка"
+                                        <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.Custom.name}"
                                             FontSize="14" Foreground="#707070" FontWeight="SemiBold"/>
                                         
-                                        <TextBlock Text="Покачто не доступно."
+                                        <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.Custom.subtext}"
                                             FontSize="11" Foreground="#707070" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </RadioButton>

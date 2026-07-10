@@ -7,6 +7,8 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using System;
+using SyncraRPC.Localization;
+
 namespace SyncraRPC;
 
 public partial class MainWindow : Window
@@ -14,14 +16,12 @@ public partial class MainWindow : Window
     private readonly ManagerSyncraRpc _rpcManager = new();
     private readonly Config config;
 
-    public MainWindow()
-    {
+    public MainWindow() {
         InitializeComponent();
         config = new();
     }
 
-    public void OnMenuSelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
+    public void OnMenuSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         var menuListBox = this.FindControl<ListBox>("MenuListBox");
         var contentCarousel = this.FindControl<Carousel>("ContentCarousel");
 
@@ -31,25 +31,20 @@ public partial class MainWindow : Window
         }
     }
 
-    public async void onActivateSyncraRPC(object? sender, RoutedEventArgs e)
-    {
+    public async void onActivateSyncraRPC(object? sender, RoutedEventArgs e) {
         var rpcButton = this.FindControl<Button>("RpcActivationButton");
         if (rpcButton == null) return;
 
-        if (!_rpcManager.IsActive)
-        {
+        if (!_rpcManager.IsActive) {
             _rpcManager.Start();
-            rpcButton.Content = "Выключить SyncraRPC";
+            rpcButton.Content = LocalizationManager.Instance.GetString("main.mainBtn.off");
             rpcButton.Background = Avalonia.Media.Brush.Parse("#4e5491"); 
-        }
-        else
-        {
+        } else {
             await _rpcManager.Stop();
-            rpcButton.Content = "Включить SyncraRPC";
+            rpcButton.Content = LocalizationManager.Instance.GetString("main.mainBtn.on");
             rpcButton.Background = Avalonia.Media.Brush.Parse("#5865F2");
         }
     }
-
 
     public void OnCloseClick(object? sender, RoutedEventArgs e) => this.Close();
     
@@ -57,8 +52,9 @@ public partial class MainWindow : Window
         this.WindowState = WindowState.Minimized;
 
     public void OnCloseUI(object? sender, RoutedEventArgs e)
-    {
-        if (config == null && config.GetStandardConfig("AgreedWithHideUIButton")?.GetType() != typeof(string)) {
+    {   
+        if (config == null) return;
+        if (config.GetStandardConfig("AgreedWithHideUIButton")?.GetType() != typeof(string)) {
             System.Console.WriteLine("[Main] Config пуст или прочитан правильно пора дебажить");
         }        
 
