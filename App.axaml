@@ -8,85 +8,89 @@
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-<Application.Resources>
-    <!-- Базовый акцентный цвет (выбранное состояние) -->
-    <Color x:Key="SystemAccentColor">#5865F2</Color>
-    
-    <!-- Цвет при наведении курсора (светлее/прозрачнее) -->
-    <Color x:Key="SystemAccentColorLight1">#7289DA</Color>
-    <Color x:Key="SystemAccentColorLight2">#99AAB5</Color>
-    
-    <!-- Цвет при нажатии (темнее) -->
-    <Color x:Key="SystemAccentColorDark1">#4752C4</Color>
-    <Color x:Key="SystemAccentColorDark2">#363D9E</Color>
-</Application.Resources>
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="F:\src\C#\SyncraRPC\Assets/Untitled07012026112947.ico" ToolTipText="Avalonia Tray Icon ToolTip">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Settings">
+                            <NativeMenu>
+                                <NativeMenuItem Header="Option 1" />
+                                <NativeMenuItem Header="Option 2" />
+                                <NativeMenuItemSeparator />
+                                <NativeMenuItem Header="Option 3" />
+                            </NativeMenu>
+                        </NativeMenuItem>
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
 
-<Application.Styles>
-    <FluentTheme/>
-    
-    <Style Selector="Window">
-        <Setter Property="Background" Value="#222222"/>
-    </Style>
+    <Application.Resources>
+        <Color x:Key="SystemAccentColor">#5865F2</Color>
+        <Color x:Key="SystemAccentColorLight1">#7289DA</Color>
+        <Color x:Key="SystemAccentColorLight2">#99AAB5</Color>
+        <Color x:Key="SystemAccentColorDark1">#4752C4</Color>
+        <Color x:Key="SystemAccentColorDark2">#363D9E</Color>
+    </Application.Resources>
 
-    <Style Selector="Button.WindowControl">
-        <Setter Property="Width" Value="46"/>
-        <Setter Property="Height" Value="32"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="FontSize" Value="12"/>
-    </Style>
+    <Application.Styles>
+        <FluentTheme/>
+            <Style Selector="Window">
+                <Setter Property="Background" Value="#222222"/>
+            </Style>
+        <Style Selector="Button.WindowControl">
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="Button.Close:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#e81123" />
+        </Style>
+        <Style Selector="Button.Close:pointerover">
+            <Setter Property="Background" Value="#e81123" />
+        </Style>
 
-    <Style Selector="Button.Close:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="#e81123" />
-    </Style>
-    
-    <Style Selector="Button.Close:pointerover">
-        <Setter Property="Background" Value="#e81123" />
-    </Style>
+        <Style Selector="CheckBox.switch">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Name="track" 
+                            CornerRadius="10" 
+                            Width="40" Height="20" 
+                            Background="#40444B"
+                            Padding="2"
+                            Cursor="Hand">
+                        <Ellipse Name="thumb" 
+                                Width="12" Height="12" 
+                                Fill="White" 
+                                HorizontalAlignment="Left">
+                            <Ellipse.Transitions>
+                                <Transitions>
+                                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                                </Transitions>
+                            </Ellipse.Transitions>
+                        </Ellipse>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
 
-<!-- Базовый стиль -->
-    <Style Selector="CheckBox.switch">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border Name="track" 
-                        CornerRadius="10" 
-                        Width="40" Height="20" 
-                        Background="#40444B"
-                        Padding="2"
-                        Cursor="Hand">
-                    <!-- Уменьшенный кружок с анимацией -->
-                    <Ellipse Name="thumb" 
-                            Width="12" Height="12" 
-                            Fill="White" 
-                            HorizontalAlignment="Left">
-                        <!-- Плавное перемещение за 200мс -->
-                        <Ellipse.Transitions>
-                            <Transitions>
-                                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
-                            </Transitions>
-                        </Ellipse.Transitions>
-                    </Ellipse>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-    </Style>
+        <Style Selector="CheckBox.switch:checked /template/ Border#track">
+            <Setter Property="Background" Value="#5865F2"/>
+        </Style>
 
-    <!-- Состояние ВКЛЮЧЕНО -->
-    <Style Selector="CheckBox.switch:checked /template/ Border#track">
-        <Setter Property="Background" Value="#5865F2"/>
-    </Style>
+        <Style Selector="CheckBox.switch:checked /template/ Ellipse#thumb">
+            <Setter Property="RenderTransform" Value="translateX(20px)"/>
+        </Style>
 
-    <!-- Анимированное перемещение через RenderTransform -->
-    <Style Selector="CheckBox.switch:checked /template/ Ellipse#thumb">
-        <Setter Property="RenderTransform" Value="translateX(20px)"/>
-    </Style>
+        <Style Selector="CheckBox.switch:pointerover /template/ Border#track">
+            <Setter Property="Opacity" Value="0.85"/>
+        </Style>
 
-    <!-- Эффект наведения -->
-    <Style Selector="CheckBox.switch:pointerover /template/ Border#track">
-        <Setter Property="Opacity" Value="0.85"/>
-    </Style>
-
-</Application.Styles>
+    </Application.Styles>
 </Application>
