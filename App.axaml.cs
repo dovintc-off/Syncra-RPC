@@ -9,7 +9,7 @@ public partial class App : Application {
     public Config? config;
     public override void Initialize() {
         config = new();
-        LocalizationManager.Instance.SetLanguage(config.GetStandardConfig("Language")?.ToString());
+        LocalizationManager.Instance.SetLanguage(config.GetStandardConfig("Language")?.ToString()??"EN");
         AvaloniaXamlLoader.Load(this);
     }
 

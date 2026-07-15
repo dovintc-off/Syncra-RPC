@@ -14,7 +14,7 @@ namespace SyncraRPC;
 public partial class MainWindow : Window
 {
     private readonly ManagerSyncraRpc _rpcManager = new();
-    public readonly Config config;
+    public readonly Config? config;
 
     public MainWindow() {
         if (App.Current is App myApp && myApp.config != null) config = myApp.config;
@@ -96,7 +96,7 @@ public partial class MainWindow : Window
     {
         WarningOverlay.IsVisible = false;
         WarningOverlay.ZIndex = -1000;
-        config.SetStandardConfig(agreedWithHideUIButton: "true");
+        config?.SetStandardConfig(agreedWithHideUIButton: "true");
     }
 
     public void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e) => 
