@@ -10,22 +10,21 @@
 
     <TrayIcon.Icons>
         <TrayIcons>
-            <TrayIcon Icon="F:\src\C#\SyncraRPC\Assets/Untitled07012026112947.ico" ToolTipText="Avalonia Tray Icon ToolTip">
+            <TrayIcon Icon="avares://SyncraRPC/Assets/Untitled07012026112947.ico" 
+                    ToolTipText="Syncra RPC"> <!-- Клик по иконке в трее -->
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Settings">
-                            <NativeMenu>
-                                <NativeMenuItem Header="Option 1" />
-                                <NativeMenuItem Header="Option 2" />
-                                <NativeMenuItemSeparator />
-                                <NativeMenuItem Header="Option 3" />
-                            </NativeMenu>
-                        </NativeMenuItem>
+                        <!-- Кнопка открыть/развернуть -->
+                        <NativeMenuItem Header="Open SyncraRPC"/>
+                        <NativeMenuItemSeparator />
+                        <!-- Кнопка полного выхода из приложения -->
+                        <NativeMenuItem Header="Exit"/>
                     </NativeMenu>
                 </TrayIcon.Menu>
             </TrayIcon>
         </TrayIcons>
     </TrayIcon.Icons>
+
 
     <Application.Resources>
         <Color x:Key="SystemAccentColor">#5865F2</Color>
@@ -59,23 +58,29 @@
         <Style Selector="CheckBox.switch">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border Name="track" 
-                            CornerRadius="10" 
-                            Width="40" Height="20" 
-                            Background="#40444B"
-                            Padding="2"
-                            Cursor="Hand">
-                        <Ellipse Name="thumb" 
-                                Width="12" Height="12" 
-                                Fill="White" 
-                                HorizontalAlignment="Left">
-                            <Ellipse.Transitions>
-                                <Transitions>
-                                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
-                                </Transitions>
-                            </Ellipse.Transitions>
-                        </Ellipse>
-                    </Border>
+                    <Grid Background="Transparent">
+                        <Border Name="track" 
+                                CornerRadius="10" 
+                                Width="40" Height="20" 
+                                Background="#40444B"
+                                Padding="2"
+                                Cursor="Hand">
+                            <Ellipse Name="thumb" 
+                                    Width="12" Height="12" 
+                                    Fill="White" 
+                                    HorizontalAlignment="Left">
+                                <Ellipse.Transitions>
+                                    <Transitions>
+                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                                    </Transitions>
+                                </Ellipse.Transitions>
+                            </Ellipse>
+                        </Border>
+                        
+                        <ContentPresenter Name="PART_ContentPresenter" 
+                                        Content="{TemplateBinding Content}" 
+                                        IsVisible="False"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter>
         </Style>

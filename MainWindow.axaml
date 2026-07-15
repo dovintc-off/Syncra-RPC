@@ -8,12 +8,16 @@
         x:CompileBindings="False"
         xmlns:loc="clr-namespace:SyncraRPC.LocalizationMarkupExtension"
         Title="Syncra RPC Hub"
-        Width="1000" Height="700"
         WindowStartupLocation="CenterScreen"
         Background="#1e1e1e"
         Foreground="White"
-        SystemDecorations="None"
-        CornerRadius="8">
+        ExtendClientAreaToDecorationsHint="True"
+        WindowDecorations="BorderOnly"
+        CornerRadius="8"
+        Width="900" Height="800"
+        MinWidth="800" MinHeight="700">
+
+
     <Grid RowDefinitions="40, *">
         <Grid Grid.Row="0" ColumnDefinitions="250, *, Auto" Background="Transparent" PointerPressed="OnTitleBarPointerPressed">
             <Border Grid.Column="0" Background="#161616" BorderThickness="0">
@@ -65,8 +69,8 @@
 
         <Grid Grid.Row="1" ColumnDefinitions="250, *">
             <Border Grid.Column="0" Background="#161616" BorderThickness="0">
-                <Grid RowDefinitions="Auto, *">
-                    <ListBox Grid.Row="1" Name="MenuListBox" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" SelectionChanged="OnMenuSelectionChanged">
+                <Grid RowDefinitions="*, Auto">
+                    <ListBox Grid.Row="0" Name="MenuListBox" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" SelectionChanged="OnMenuSelectionChanged">
                         <ListBox.Styles>
                             <Style Selector="ListBoxItem">
                                 <Setter Property="Padding" Value="15,12"/>
@@ -94,6 +98,19 @@
                             </StackPanel>
                         </ListBoxItem>
                     </ListBox>
+                    
+                    <StackPanel Grid.Row="1" Margin="15,10,15,15" Spacing="5">
+                        <TextBlock Text="Copyright © AvaloniaUI OÜ. All Rights Reserved." 
+                                FontSize="9" 
+                                Foreground="#888888" 
+                                TextWrapping="Wrap"/>
+                        
+                        <TextBlock Text="Copyright © 2026 Dovintc. AGPLv3 + Addendum." 
+                                FontSize="9" 
+                                Foreground="#888888" 
+                                TextWrapping="Wrap"/>
+                    </StackPanel>
+
                 </Grid>
             </Border>
 
@@ -128,7 +145,7 @@
                                         VerticalAlignment="Center"
                                         Margin="0,0,50,0"/>
                                         
-                                <CheckBox IsChecked="{Binding ShowTimestamp}" 
+                                <CheckBox x:Name="ShowTimestampCheckBox" 
                                         Classes="switch"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"/>
@@ -156,39 +173,34 @@
                             </StackPanel>
 
                             <StackPanel>
-                                <RadioButton GroupName="OutputOfAdditionalInformation" IsChecked="True"  Margin="0,9,0,0">
+                                <RadioButton x:Name="SendAllRadio" GroupName="OutputOfAdditionalInformation" IsChecked="True" Margin="0,9,0,0">
                                     <StackPanel Orientation="Vertical" Spacing="2" MaxWidth="350">
                                         <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.SendAll.name}" 
-                                                FontSize="14" 
-                                                Foreground="#ffffff" 
-                                                FontWeight="SemiBold"/>
-                                                
+                                                FontSize="14" Foreground="#ffffff" FontWeight="SemiBold"/>
                                         <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.SendAll.subtext}"
                                                 FontSize="11" Foreground="#aaaaaa" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </RadioButton>
 
-                                <RadioButton GroupName="OutputOfAdditionalInformation" Margin="0,7,0,0">
+                                <RadioButton x:Name="CriticalErrorsRadio" GroupName="OutputOfAdditionalInformation" Margin="0,7,0,0">
                                     <StackPanel>
                                         <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.CriticalErrorsOnly.name}"
-                                            FontSize="14" Foreground="#ffffff" FontWeight="SemiBold"/>
-                                        
-                                        <TextBlock
-                                            Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.CriticalErrorsOnly.subtext}"
-                                            FontSize="11" Foreground="#aaaaaa" TextWrapping="Wrap"/>
+                                                FontSize="14" Foreground="#ffffff" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.CriticalErrorsOnly.subtext}"
+                                                FontSize="11" Foreground="#aaaaaa" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </RadioButton>
 
                                 <RadioButton GroupName="OutputOfAdditionalInformation" IsEnabled="False" Margin="0,7,0,0">
                                     <StackPanel >
                                         <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.Custom.name}"
-                                            FontSize="14" Foreground="#707070" FontWeight="SemiBold"/>
-                                        
+                                                FontSize="14" Foreground="#707070" FontWeight="SemiBold"/>
                                         <TextBlock Text="{loc:Loc settings.OutputOfAdditionalInformation.RadioButton.Custom.subtext}"
-                                            FontSize="11" Foreground="#707070" TextWrapping="Wrap"/>
+                                                FontSize="11" Foreground="#707070" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </RadioButton>
                             </StackPanel>
+
 
                         </StackPanel>
                     </StackPanel>

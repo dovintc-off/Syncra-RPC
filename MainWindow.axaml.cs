@@ -14,12 +14,39 @@ namespace SyncraRPC;
 public partial class MainWindow : Window
 {
     private readonly ManagerSyncraRpc _rpcManager = new();
-    private readonly Config config;
+    public readonly Config config;
 
     public MainWindow() {
+        if (App.Current is App myApp && myApp.config != null) config = myApp.config;
         InitializeComponent();
-        config = new();
+
+        if (config != null)
+        {
+            var rawSomeBtn = config.GetStandardConfig("SomeBtn");
+            bool isEnabledByDefault = rawSomeBtn is bool b ? b : true;
+            ShowTimestampCheckBox.IsChecked = isEnabledByDefault;
+
+            var rawOutputInfo = config.GetStandardConfig("OutputOfAdditionalInformation")?.ToString();
+
+            if (rawOutputInfo == "CriticalErrorsOnly")
+            {
+                CriticalErrorsRadio.IsChecked = true;
+            } else {
+                SendAllRadio.IsChecked = true;
+            }
+        }
     }
+
+
+    private void OnShowTimestampChanged(object? sender, RoutedEventArgs e)
+    {
+        if (config == null || sender is not CheckBox checkBox) return;
+
+        string valueToSave = checkBox.IsChecked == true ? "true" : "false";
+
+        System.Console.WriteLine($"[Config] ShowTimestamp изменен на: {valueToSave}");
+    }
+
 
     public void OnMenuSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         var menuListBox = this.FindControl<ListBox>("MenuListBox");
@@ -77,6 +104,24 @@ public partial class MainWindow : Window
         
     protected override async void OnClosed(EventArgs e)
     {
+        if (config != null)
+        {
+            string someBtnState = ShowTimestampCheckBox?.IsChecked == true ? "true" : "false";
+
+            string outputInfoState = "SendAll";
+            
+            if (CriticalErrorsRadio?.IsChecked == true){
+                outputInfoState = "CriticalErrorsOnly";
+            }
+
+            config.SetStandardConfig(
+                SomeBtn: someBtnState,
+                OutputOfAdditionalInformation: outputInfoState
+            );
+
+            Console.WriteLine($"[Config] Настройки сохранены. SomeBtn: {someBtnState}, OutputInfo: {outputInfoState}");
+        }
+
         await _rpcManager.Stop();
         base.OnClosed(e);
         Console.WriteLine("[RPC] Соединение закрыто");

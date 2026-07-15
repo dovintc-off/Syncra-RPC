@@ -5,18 +5,16 @@ using SyncraRPC.Localization;
 
 namespace SyncraRPC;
 
-public partial class App : Application
-{
-    public override void Initialize()
-    {
+public partial class App : Application {
+    public Config? config;
+    public override void Initialize() {
+        config = new();
+        LocalizationManager.Instance.SetLanguage(config.GetStandardConfig("Language")?.ToString());
         AvaloniaXamlLoader.Load(this);
-        LocalizationManager.Instance.SetLanguage("en");
     }
 
-    public override void OnFrameworkInitializationCompleted()
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
+    public override void OnFrameworkInitializationCompleted(){
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             desktop.MainWindow = new MainWindow();
         }
 
